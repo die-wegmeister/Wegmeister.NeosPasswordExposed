@@ -1,0 +1,9 @@
+Wegmeister\NeosPasswordExposed\Service\UserServiceAspect:
+  properties:
+    configurationCache:
+      object:
+        factoryObjectName: Neos\Flow\Cache\CacheManager
+        factoryMethodName: getCache
+        arguments:
+          1:
+            value: Wegmeister_NeosPasswordExposed_HashCache
