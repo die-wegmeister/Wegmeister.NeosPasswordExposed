@@ -1,3 +1,4 @@
 Wegmeister:
   NeosPasswordExposed:
     checkExposedPasswords: true
+    cacheLiveTime: 86400

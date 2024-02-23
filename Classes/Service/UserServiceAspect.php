@@ -54,19 +54,18 @@ class UserServiceAspect
         $cacheKey = 'pwned_' . $passwordHashPrefix;
 
         if ($this->cache->has($cacheKey)) {
-            $cachedResult = $this->cache->get($cacheKey);
-            $lines = explode("\n", $cachedResult);
+            $body = $this->cache->get($cacheKey);
         } else {
             $response = $this->request($passwordHashPrefix);
 
             if ($response instanceof ResponseInterface && $response->getStatusCode() === 200) {
                 $body = (string)$response->getBody();
-                $this->cache->set($cacheKey, $body, [], 36000); // 10 hours
-                $lines = explode("\n", $body);
+                $this->cache->set($cacheKey, $body, [], $this->settings["cacheLiveTime"]);
             } else {
                 return;
             }
         }
+        $lines = explode("\n", $body);
 
         foreach ($lines as $line) {
             [$hashSuffix, $count] = explode(':', $line);
